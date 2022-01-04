@@ -64,8 +64,11 @@ func writeLogMessage(logType string, logMessage *string) {
 		w, err = createLogFileAndReturnWriter()
 		if err != nil {
 			fmt.Printf("Program failed to create a new log file! Error: %s\n", err)
+			return
 		}
+		defer w.Close()
 	}
+	defer w.Close()
 
 	currentTime := time.Now()
 	w.WriteString(fmt.Sprintf("[%v] - %v: %v\n", logType, getFormattedTimeString(&currentTime), *logMessage))
